@@ -1,5 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
+
+
 
 artists = [
     {
@@ -7,11 +9,13 @@ artists = [
         'address': 'xd lol'
     },
     {
-        'artist': 'hehehe',
+        'artist': 'bruno mars',
         'address': 'ok xd 123'
     },
 
 ]
+
+kk = "hello test world"
 
 def home(request):
     context = {
@@ -24,6 +28,21 @@ def home(request):
 
 def test(request):
     return render(request,'search/test.html')
+
+def validate_username(request):
+    # console.log('here')
+    artistName = request.GET.get('artistName')
+    songName = request.GET.get('songName')
+    data = {
+        'dat':songName+'testtest',
+        'xd':artistName
+    }
+    return JsonResponse(data)
+
+
+    
+
+    
 
 
 
