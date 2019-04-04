@@ -21,11 +21,11 @@
 <body>
     
     <h1>Hi welcome to my site :sunglasses:</h1>
-    <form method="get" action="/test/"> 
+    <form> 
       <div class="form-inline">
           
           <label class="pr-2 pl-2" for="formGroupExampleInput">Artist Name</label>
-          <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
+          <input id="input" type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
 
           <label class="pr-2 pl-2"   for="formGroupExampleInput2">Song Name</label>
           <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
@@ -33,7 +33,7 @@
 
       </div>
 
-      <button name="searchButton" type="submit" class="btn btn-primary mb-2 ml-2">Search </button>
+      <button id="test" name="searchButton" type="submit" class="btn btn-primary mb-2 ml-2">Search </button>
     </form>
 
     {% for artist in artists %}
@@ -46,3 +46,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
+
+<script>
+$("#test").click(function() {
+  var input = $('input')
+}
+
+
+  
+);
+
+
+
+</script>
