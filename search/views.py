@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
+from .forms import searchForm
+from .models import Artist
 
 
 
@@ -23,26 +25,37 @@ def home(request):
     }
     # if(request.GET.get('searchButton')):
     #     print("xd")
+    form = searchForm()
 
-    return render(request,'search/base.html',context)
+    return render(request,'search/home.html',{'form':searchForm()})
 
 def test(request):
     return render(request,'search/test.html')
 
 def validate_username(request):
-    # console.log('here')
+    print("request: ")
+    print(request)
     artistName = request.GET.get('artistName')
     songName = request.GET.get('songName')
     data = {
         'dat':songName+'testtest',
         'xd':artistName
     }
-    return JsonResponse(data)
+    # return JsonResponse(data)
+    return redirect('../result')
 
+def result(request):
+    if request.method == "GET":
+        form = request.GET
+        # print(type(form))
+        print(form)
+        query = Artist.objects.filter(name=form['artist_name'])
+        lis = [entry for entry in query.values()]
+        # print(query.values())
+        print(lis)
+        result = {
+            'lis':lis
+        }
 
-    
-
-    
-
-
-
+        # print(Artist.objects.filter(name='lil Wayne')[0].DOB)
+    return render(request,'search/result.html',result)
