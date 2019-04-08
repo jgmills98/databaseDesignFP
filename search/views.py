@@ -3,59 +3,38 @@ from django.http import HttpResponse,JsonResponse
 from .forms import searchForm
 from .models import Artist
 
-
-
-artists = [
-    {
-        'artist': 'lil wayne',
-        'address': 'xd lol'
-    },
-    {
-        'artist': 'bruno mars',
-        'address': 'ok xd 123'
-    },
-
-]
-
-kk = "hello test world"
+from django.db.models import Q
 
 def home(request):
-    context = {
-        'artists': artists
-    }
-    # if(request.GET.get('searchButton')):
-    #     print("xd")
+
     form = searchForm()
+    artist = Artist.objects.get(pk=1)
+    form = searchForm(instance=artist)
 
     return render(request,'search/home.html',{'form':searchForm()})
 
 def test(request):
     return render(request,'search/test.html')
 
-def validate_username(request):
-    print("request: ")
-    print(request)
-    artistName = request.GET.get('artistName')
-    songName = request.GET.get('songName')
-    data = {
-        'dat':songName+'testtest',
-        'xd':artistName
-    }
-    # return JsonResponse(data)
-    return redirect('../result')
-
 def result(request):
     if request.method == "GET":
         form = request.GET
-        # print(type(form))
-        print(form)
-        query = Artist.objects.filter(name=form['artist_name'])
-        lis = [entry for entry in query.values()]
+        form = form.copy()
+
+        form.pop('csrfmiddlewaretoken')
+
+        # query = Artist.objects.raw('select * from project_artist;')
+        print(form.__contains__("artist_name"))
+
+
+        query = Artist.objects.filter(name__iexact=form['artist_name'])
+
+        result = [entry for entry in query.values()]
         # print(query.values())
-        print(lis)
-        result = {
-            'lis':lis
+        # print(type(lis))
+        queryRes = {
+            'result':result
         }
 
         # print(Artist.objects.filter(name='lil Wayne')[0].DOB)
-    return render(request,'search/result.html',result)
+    return render(request,'search/result.html',queryRes)

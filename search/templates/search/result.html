@@ -2,11 +2,26 @@
 <html>
     <h1>here now</h1>
     
-    {% for a in lis %}
-        <div>
+    {% for a in result %}
+        <!-- <div>
             <p>
-                {{a.name}}
+                Name: {{a.name}} {{a.DOB}} {{a.SSN}}
             </p>
+            <p>
+                {{a.Genre}}
+            </p>
+        </div> -->
+
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+
+
+
+            </ul>
+            {% for key,value in a.items %}
+                {{key}}: h1{{value}}|
+
+            {% endfor %}
         </div>
     {% endfor %}
 </html>
