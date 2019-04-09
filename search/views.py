@@ -20,14 +20,20 @@ def result(request):
     if request.method == "GET":
         form = request.GET
         form = form.copy()
-
         form.pop('csrfmiddlewaretoken')
 
-        # query = Artist.objects.raw('select * from project_artist;')
-        # print(form.__contains__("artist_name"))
+        for value in form.copy().items():
+            if value[1] == "":
+                form.pop(value[0])
+
+        query = Artist.objects.all()
+
+        # for key,value in form.items():
+        #     query.filter(key=value)
 
 
-        query = Artist.objects.filter(name__iexact=form['name'])
+        query = Artist.objects.filter(name="Lil Wayne")
+        # query = Artist.objects.filter(name__iexact=form['name'])
 
         result = [entry for entry in query.values()]
         # print(query.values())
