@@ -3,7 +3,18 @@
 <h1>Hi welcome to my site :sunglasses:</h1>
 <form action="result" method="GET">
     {% csrf_token %}
-    {{form}}
+    <div>
+        {{artistForm}}
+
+    </div>
+    <div>
+        {{albumForm}}
+
+    </div>
+    <div>
+        {{songForm}}
+
+    </div>
     <input type="submit">
 </form>
 

@@ -1,13 +1,18 @@
 from django import forms
-from .models import Artist
+from .models import Artist,Album,Song
 import datetime
 
-class searchForm(forms.Form):
+class artistForm(forms.ModelForm):
     class Meta:
         model = Artist
-        fiels = ['name','DOB','Genre',]
+        fields = ['name','DOB','Genre','monthly_views']
 
-    # artist_name = forms.CharField(label='Arist Name', max_length = 20)
-    # DOB = forms.DateField(input_formats='%d/%m/%Y')
+class albumForm(forms.ModelForm):
+    class Meta:
+        model = Album
+        fields = ['title','artist','label','sales','year']
 
-        
+class songForm(forms.ModelForm):
+    class Meta:
+        model = Song
+        fields = ['track','album','artist','length','streams','featured']
