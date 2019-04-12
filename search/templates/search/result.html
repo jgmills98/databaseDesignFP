@@ -1,28 +1,24 @@
-
 <html>
-    <h1>here now</h1>
-    
-    {% for a in result %}
-        <!-- <div>
-            <p>
-                Name: {{a.name}} {{a.DOB}} {{a.SSN}}
-            </p>
-            <p>
-                {{a.Genre}}
-            </p>
-        </div> -->
+<h1>here now</h1>
+{% if artistResult|length == 0 %}
+<p>No Queries matched search parameters</p>
 
-        <div>
-            <ul class="list-group list-group-horizontal-md">
+{% else %}
+
+    {% for a in artistResult %}
+
+    <div>
+        <ul class="list-group list-group-horizontal-md">
 
 
 
-            </ul>
-            {% for key,value in a.items %}
-                {{key}}: {{value}}|
+        </ul>
+        {% for key,value in a.items %}
+        {{key}}: {{value}}|
 
-            {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
     {% endfor %}
-</html>
+{% endif %}
 
+</html>
