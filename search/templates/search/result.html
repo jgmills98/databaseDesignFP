@@ -1,24 +1,47 @@
 <html>
 <h1>here now</h1>
-{% if artistResult|length == 0 %}
+{% if artistResult|length == 0 and albumResult|length == 0 and songResult|length == 0 %}
 <p>No Queries matched search parameters</p>
 
 {% else %}
 
-    {% for a in artistResult %}
-
-    <div>
-        <ul class="list-group list-group-horizontal-md">
-
+{% for a in artistResult %}
+<div>
+    <ul class="list-group list-group-horizontal-md">
 
 
-        </ul>
-        {% for key,value in a.items %}
-        {{key}}: {{value}}|
 
-        {% endfor %}
-    </div>
+    </ul>
+    {% for key,value in a.items %}
+    {{key}}: {{value}}|
+
     {% endfor %}
+</div>
+{% endfor %}
+{% for a in albumResult %}
+
+<div>
+    <ul class="list-group list-group-horizontal-md">
+
+    </ul>
+    {% for key,value in a.items %}
+    {{key}}: {{value}}|
+
+    {% endfor %}
+</div>
+{% endfor %}
+{% for a in songResult %}
+
+<div>
+    <ul class="list-group list-group-horizontal-md">
+
+    </ul>
+    {% for key,value in a.items %}
+    {{key}}: {{value}}|
+
+    {% endfor %}
+</div>
+{% endfor %}
 {% endif %}
 
 </html>
