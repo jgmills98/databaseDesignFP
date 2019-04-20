@@ -4,6 +4,9 @@ from .forms import artistForm,albumForm,songForm
 from .models import Artist,Album,Song
 from django.db.models.query import QuerySet
 
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
 from django.db.models import Q
 
 def home(request):
@@ -18,6 +21,7 @@ def test(request):
     return render(request,'search/test.html')
 
 def result(request):
+    print(request.user.groups.all()[0].name)
     if request.method == "GET":
         form = request.GET #get form from GET request
         form = form.copy()
@@ -27,10 +31,6 @@ def result(request):
         
         artistQuery,albumQuery,songQuery = formatQuery(request,form)#create 3 sub queries
 
-        # artists,albums,songs = QuerySet()
-        # print(artistQuery)
-        # print(albumQuery)
-        # print(songQuery)
         
         if form.__contains__('allSearch'):  
             queryRes = makeQuery(artistQuery,albumQuery,songQuery,0)
@@ -40,18 +40,14 @@ def result(request):
             queryRes = makeQuery(artistQuery,albumQuery,songQuery,2)
         elif form.__contains__('songSearch'):
             queryRes = makeQuery(artistQuery,albumQuery,songQuery,3)
-            # print(queryRes)
+
+        if(request.user.groups.all()[0].name == 'Default'):
+
+            print(queryRes['artistResult'][0])
+            del queryRes['artistResult'][0]['SSN']
+            
         
             
-        #     artists = Artist.objects.filter(**artistQuery.dict())
-
-# Album.objects.filter(artist__in=a.values_list('artist_id')).select_related()
-
-        # queryRes = Artist.objects.filter(**artistQuery.dict())
-        
-        # result = [entry for entry in artists.values()]
-
-        # print(Artist.objects.filter(name='lil Wayne')[0].DOB)
     return render(request,'search/result.html',queryRes)
 
 def formatQuery(request,form):
@@ -168,7 +164,6 @@ def albumSearch(artistQuery,albumQuery,songQuery):
         songs = Song.objects.none()
 
     queryRes = {
-            # 'artistResult':[entry for entry in artists.values()],
             'artistResult':[entry for entry in artists.values()],
             'albumResult':[entry for entry in albums.values()],
             'songResult':[entry for entry in songs.values()]
@@ -181,31 +176,30 @@ def albumSearch(artistQuery,albumQuery,songQuery):
 
 def makeQuery(artistQuery,albumQuery,songQuery,type):
     if( not bool(artistQuery) and not bool(albumQuery) and not bool(songQuery)):
-        artists = Artist.objects.all()
-        albums = Album.objects.all()
-        songs = Song.objects.all()
+        finalArtist = Artist.objects.all()
+        finalAlbum = Album.objects.all()
+        finalSong = Song.objects.all()
     else:
         artist1 = Artist.objects.filter(artist_id__in=Song.objects.filter(**songQuery.dict()).values_list('artist_id')).select_related()
         artist2 = Artist.objects.filter(artist_id__in=Album.objects.filter(**albumQuery.dict()).values_list('artist_id')).select_related()
         artist3 = artist1.filter(artist_id__in=artist2.values_list('artist_id')).select_related()
-        artist3 = artist3.filter(**artistQuery.dict())
+        finalArtist = artist3.filter(**artistQuery.dict())
 
         album1 = Album.objects.filter(album_id__in=Song.objects.filter(**songQuery.dict()).values_list('album_id')).select_related()
         album2 = Album.objects.filter(artist_id__in=Artist.objects.filter(**artistQuery.dict()).values_list('artist_id')).select_related()
         album3 = album1.filter(artist_id__in=album2.values_list('artist_id')).select_related()
-        album3 = album3.filter(**albumQuery.dict())
+        finalAlbum = album3.filter(**albumQuery.dict())
 
         song1 = Song.objects.filter(artist_id__in=Artist.objects.filter(**artistQuery.dict()).values_list('artist_id')).select_related()
         song2 = Song.objects.filter(artist_id__in=Album.objects.filter(**albumQuery.dict()).values_list('artist_id')).select_related()
         song3 = song1.filter(artist_id__in=song2.values_list('artist_id')).select_related()
-        song3 = song3.filter(**songQuery.dict())
+        finalSong = song3.filter(**songQuery.dict())
 
     queryRes = {
-            'artistResult':[entry for entry in artist3.values()],
-            'albumResult':[entry for entry in album3.values()],
-            'songResult':[entry for entry in song3.values()]
+            'artistResult':[entry for entry in finalArtist.values()],
+            'albumResult':[entry for entry in finalAlbum.values()],
+            'songResult':[entry for entry in finalSong.values()]
         }
-
     
     if type == 1:
         queryRes['albumResult'] = []
