@@ -1,2 +1,7 @@
 .vscode
 search/__pycache__
+project/__pycache__/
+search/__pycache__/
+search/migrations/__pycache__/
+user/__pycache__/
+user/migrations/__pycache__/
