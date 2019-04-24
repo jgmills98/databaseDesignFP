@@ -1,25 +1,58 @@
 {% extends "search/base.html" %}
 {% block content %}
-<h1>Hi welcome to my site :sunglasses:</h1>
+
+<head>
+    <style>
+    body {
+      background-color: #bcbcbc;
+    }
+    nav {
+      margin: 0;
+      padding: 10;
+      overflow: hidden;
+      background-color: #333;
+    }
+    
+    li {
+      float: left;
+    }
+    
+    li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+    
+    </style>
+    </head>
+       
+<!-- Each form has it's own column -->
 <form action="result" method="GET">
-    {% csrf_token %}
-    <div>
-        {{artistForm}}
+        {% csrf_token %}
+<div class="row">
+        <div class="column" style="background-color:#aaa;">
+                {{artistForm.as_p}}
 
-    </div>
-    <div>
-        {{albumForm}}
+        </div>
+        <div class="column" style="background-color:#bbb;">
+                {{albumForm.as_p}}
 
+        </div>
+        <div class="column" style="background-color:#ccc;">
+                {{songForm.as_p}}
+        </div>
     </div>
-    <div>
-        {{songForm}}
+    
+    <br> </br>
 
-    </div>
-    <input type="submit" name="allSearch" value="Search All">
-    <input type="submit" name="artistSearch" value="Search Artist">
-    <input type="submit" name="albumSearch" value="Search Album">
-    <input type="submit" name="songSearch" value="Search Song">
-    <input type="reset" value="Clear Query"></input>
+    <center>
+        <input type="submit" name="allSearch" value="Search All">
+        <input type="submit" name="artistSearch" value="Search Artist">
+        <input type="submit" name="albumSearch" value="Search Album">
+        <input type="submit" name="songSearch" value="Search Song">
+    </center>
     
 </form>
 

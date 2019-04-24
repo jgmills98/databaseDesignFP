@@ -3,7 +3,23 @@
 <html>
 
 <head>
+  <!-- Column Formatting s-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+  * {
+    box-sizing: border-box;
+  }
 
+  .row {
+    display: flex;
+  }
+
+  .column {
+    flex: 33%;
+    padding: 2%;
+  }
+  </style>
+  
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,16 +43,24 @@
   {% else %}
   <title>Django Blog</title>
   {% endif %}
-</head>
+</head style="background-color:powderblue;">
 
-<body>
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
+<body >
+    <style>
+        body {
+          background-color: #bcbcbc;
+        }
+        nav {
+          margin: 0;
+          padding: 10;
+          overflow: hidden;
+          background-color: #333;
+        }
+      </style>
+    <nav>
+        <img src="../../static/images/Spot.png" alt="Italian Trulli" width="50" height="50" hspace="10" vspace="10">
+        <a style="font-size:30px;color:white;text-align:center; vertical-align: middle;" >Musician Database</a>
+    </nav>
   {% block content %}{% endblock %}
 </body>
 
