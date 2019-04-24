@@ -41,13 +41,29 @@ def result(request):
         elif form.__contains__('songSearch'):
             queryRes = makeQuery(artistQuery,albumQuery,songQuery,3)
 
-        if(request.user.groups.all()[0].name == 'Default'):
+        if request.user.groups.all()[0].name == 'Listener':
+            for val in queryRes['artistResult']:
+                del val['SSN']
+                del val['monthly_views']
+                del val['label_rank']
+            for val in queryRes['albumResult']:
+                del val['sales']
+                del val['album_id']
+            for val in queryRes['songResult']:
+                del val['streams']
+                del val['song_id']
 
-            print(queryRes['artistResult'][0])
-            del queryRes['artistResult'][0]['SSN']
-            
+        elif request.user.groups.all()[0].name == 'Label':
+            for val in queryRes['albumResult']:
+                del val['album_id']
+            for val in queryRes['songResult']:
+                del val['song_id']
+
+        elif request.user.groups.all()[0].name == 'Service':
+            for val in queryRes['artistResult']:
+                del val['SSN']
+                del val['label_rank']            
         
-            
     return render(request,'search/result.html',queryRes)
 
 def formatQuery(request,form):

@@ -5,5 +5,5 @@ from django.dispatch import receiver
 @receiver(post_save,sender=User)
 def setGroup(sender,instance,created,**kwargs):
     if created:
-        instance.groups.add(Group.objects.get(name='Default'))
+        instance.groups.add(Group.objects.get(name='Listener'))
 
