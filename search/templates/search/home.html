@@ -1,6 +1,9 @@
 {% extends "search/base.html" %}
 {% block content %}
 
+<center><h1>Search Database</h1></center>
+<br></br>
+
 <head>
     <style>
     body {
@@ -30,17 +33,22 @@
        
 <!-- Each form has it's own column -->
 <form action="result" method="GET">
-        {% csrf_token %}
-<div class="row">
+    {% csrf_token %}
+    <div class="row">
         <div class="column" style="background-color:#aaa;">
+                <center><h2>Artist Info</h2></center>
+                <br></br>
                 {{artistForm.as_p}}
-
         </div>
         <div class="column" style="background-color:#bbb;">
+                <center><h2>Album Info</h2></center>
+                <br></br>
                 {{albumForm.as_p}}
 
         </div>
         <div class="column" style="background-color:#ccc;">
+                <center><h2>Song Info</h2></center>
+                <br></br>
                 {{songForm.as_p}}
         </div>
     </div>

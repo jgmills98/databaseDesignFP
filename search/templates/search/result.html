@@ -3,9 +3,9 @@
 
 {% block content %}
 
+<center><h1>Query Results</h1></center>
+<br></br>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-<h1>here now</h1>
 
 {{ user|groupCheck:"Service" }}
 
@@ -14,62 +14,79 @@
 
 {% else %}
 
-{% for a in artistResult %}
-<div>
+<div class="row">
+    <div class="column" style="background-color:#aaa;">
+        <center><h2>Artist Info</h2></center>
+        <br></br>
+        {% for a in artistResult %}
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+        
+        
+            </ul>
+            {% for key,value in a.items %}
+                {% if key != 'artist_id' %}
+                    {{key}}: {{value}}|
+                {% endif %}
+        
+            {% endfor %}
+            <form action="edit" method="GET">
+                <input type="hidden" name="artist_id" value={{ a.artist_id }}>
+                <input type="submit" name="edit" value="Edit Artist" />
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="column" style="background-color:#bbb;">
+        <center><h2>Album Info</h2></center>
+        <br></br>
+        {% for a in albumResult %}
 
-    {% for key,value in a.items %}
-    {% if key != 'artist_id' %}
-    {{key}}: {{value}}|
-    {% endif %}
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+            </ul>
+            {% for key,value in a.items %}
+                {% if key != 'album_id' %}
+                 {{key}}: {{value}}|
+                {% endif %}
+        
+            {% endfor %}
 
-    {% endfor %}
-    <form action="edit" method="GET">
+            <form action="edit" method="GET">
+                <input type="hidden" name="album_id" value={{ a.album_id }}>
+                <input type="submit" name="edit" value="Edit Album"  />
+            </form>
+        </div>
+        {% endfor %}
 
-        <input type="hidden" name="artist_id" value={{ a.artist_id }}>
-        <input type="submit" name="edit" value="Edit Artist" />
-    </form>
+    </div>
+    <div class="column" style="background-color:#ccc;">
+        <center><h2>Song Info</h2></center>
+        <br></br>
+        {% for a in songResult %}
 
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+            </ul>
+            {% for key,value in a.items %}
+                {% if key != 'song_id' %}
+                 {{key}}: {{value}}|
+                {% endif %}
+        
+            {% endfor %}
+
+            <form action="edit" method="GET">
+                <input type="hidden" name="song_id" value={{ a.song_id }}>
+                <input type="submit" name="edit" value="Edit Song" />
+            </form>
+        </div>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
-{% for a in albumResult %}
 
-<div>
-    <ul class="list-group list-group-horizontal-md">
-
-    </ul>
-    {% for key,value in a.items %}
-    {% if key != 'album_id' %}
-    {{key}}: {{value}}|
-    {% endif %}
-
-    {% endfor %}
-
-    <form action="edit" method="GET">
-
-        <input type="hidden" name="album_id" value={{ a.album_id }}>
-        <input type="submit" name="edit" value="Edit Album"  />
-    </form>
-</div>
-{% endfor %}
-{% for a in songResult %}
-
-<div>
-    <ul class="list-group list-group-horizontal-md">
-
-    </ul>
-    {% for key,value in a.items %}
-    {% if key != 'song_id' %}
-    {{key}}: {{value}}|
-    {% endif %}
-
-    {% endfor %}
-    <form action="edit" method="GET">
-
-        <input type="hidden" name="song_id" value={{ a.song_id }}>
-        <input type="submit" name="edit" value="Edit Song" />
-    </form>
-</div>
-{% endfor %}
 {% endif %}
 
 </html>
