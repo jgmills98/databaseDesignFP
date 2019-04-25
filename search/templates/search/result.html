@@ -1,8 +1,14 @@
 {% extends "search/base.html" %}
+{% load groupCheck %}
+
 {% block content %}
 
 <center><h1>Query Results</h1></center>
 <br></br>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+{{ user|groupCheck:"Service" }}
+
 {% if artistResult|length == 0 and albumResult|length == 0 and songResult|length == 0 %}
 <p>No Queries matched search parameters</p>
 
@@ -20,9 +26,15 @@
         
             </ul>
             {% for key,value in a.items %}
-            {{key}}: {{value}}|
+                {% if key != 'artist_id' %}
+                    {{key}}: {{value}}|
+                {% endif %}
         
             {% endfor %}
+            <form action="edit" method="GET">
+                <input type="hidden" name="artist_id" value={{ a.artist_id }}>
+                <input type="submit" name="edit" value="Edit Artist" />
+            </form>
         </div>
         {% endfor %}
     </div>
@@ -36,9 +48,16 @@
         
             </ul>
             {% for key,value in a.items %}
-            {{key}}: {{value}}|
+                {% if key != 'album_id' %}
+                 {{key}}: {{value}}|
+                {% endif %}
         
             {% endfor %}
+
+            <form action="edit" method="GET">
+                <input type="hidden" name="album_id" value={{ a.album_id }}>
+                <input type="submit" name="edit" value="Edit Album"  />
+            </form>
         </div>
         {% endfor %}
 
@@ -53,9 +72,16 @@
         
             </ul>
             {% for key,value in a.items %}
-            {{key}}: {{value}}|
+                {% if key != 'song_id' %}
+                 {{key}}: {{value}}|
+                {% endif %}
         
             {% endfor %}
+
+            <form action="edit" method="GET">
+                <input type="hidden" name="song_id" value={{ a.song_id }}>
+                <input type="submit" name="edit" value="Edit Song" />
+            </form>
         </div>
         {% endfor %}
     </div>
@@ -64,4 +90,5 @@
 {% endif %}
 
 </html>
+
 {% endblock content %}

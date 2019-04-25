@@ -1,0 +1,17 @@
+{% extends "search/base.html" %}
+{% block content %}
+<h1>
+    welcome
+</h1>
+<form method="POST">
+    {% csrf_token %}
+
+    {{form.as_p}}
+    
+
+    <input type="submit" name="edit" value="Edit Table">
+
+</form>
+
+
+{% endblock content %}
