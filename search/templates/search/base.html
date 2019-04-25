@@ -51,11 +51,20 @@
       background-color: #333;
     }
   </style>
+  
+  {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
+        <img src="../../static/images/Spot.png" alt="Italian Trulli" width="50" height="50" hspace="10" vspace="10"></img>
         <a class="navbar-brand" href="/">Musician Database</a>
-          <img src="../../static/images/Spot.png" alt="Italian Trulli" width="50" height="50" hspace="10" vspace="10">
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>

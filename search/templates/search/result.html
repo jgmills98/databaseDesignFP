@@ -1,7 +1,14 @@
 {% extends "search/base.html" %}
+{% load groupCheck %}
+
 {% block content %}
 
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 <h1>here now</h1>
+
+{{ user|groupCheck:"Service" }}
+
 {% if artistResult|length == 0 and albumResult|length == 0 and songResult|length == 0 %}
 <p>No Queries matched search parameters</p>
 
@@ -9,15 +16,19 @@
 
 {% for a in artistResult %}
 <div>
-    <ul class="list-group list-group-horizontal-md">
 
-
-
-    </ul>
     {% for key,value in a.items %}
+    {% if key != 'artist_id' %}
     {{key}}: {{value}}|
+    {% endif %}
 
     {% endfor %}
+    <form action="edit" method="GET">
+
+        <input type="hidden" name="artist_id" value={{ a.artist_id }}>
+        <input type="submit" name="edit" value="Edit Artist" />
+    </form>
+
 </div>
 {% endfor %}
 {% for a in albumResult %}
@@ -27,9 +38,17 @@
 
     </ul>
     {% for key,value in a.items %}
+    {% if key != 'album_id' %}
     {{key}}: {{value}}|
+    {% endif %}
 
     {% endfor %}
+
+    <form action="edit" method="GET">
+
+        <input type="hidden" name="album_id" value={{ a.album_id }}>
+        <input type="submit" name="edit" value="Edit Album"  />
+    </form>
 </div>
 {% endfor %}
 {% for a in songResult %}
@@ -39,12 +58,20 @@
 
     </ul>
     {% for key,value in a.items %}
+    {% if key != 'song_id' %}
     {{key}}: {{value}}|
+    {% endif %}
 
     {% endfor %}
+    <form action="edit" method="GET">
+
+        <input type="hidden" name="song_id" value={{ a.song_id }}>
+        <input type="submit" name="edit" value="Edit Song" />
+    </form>
 </div>
 {% endfor %}
 {% endif %}
 
 </html>
+
 {% endblock content %}

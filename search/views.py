@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse,QueryDict
-from .forms import artistForm,albumForm,songForm
+from .forms import artistForm,artistFullForm,albumForm,albumFullForm,songForm,songFullForm
 from .models import Artist,Album,Song
 from django.db.models.query import QuerySet
 
@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
 from django.db.models import Q
+
+from django.contrib import messages
 
 def home(request):
 
@@ -21,7 +23,7 @@ def test(request):
     return render(request,'search/test.html')
 
 def result(request):
-    print(request.user.groups.all()[0].name)
+    print(request.user.groups.all()[0].name)    
     if request.method == "GET":
         form = request.GET #get form from GET request
         form = form.copy()
@@ -48,10 +50,13 @@ def result(request):
                 del val['label_rank']
             for val in queryRes['albumResult']:
                 del val['sales']
-                del val['album_id']
+                # del val['album_id']
+                del val['artist_id']
             for val in queryRes['songResult']:
                 del val['streams']
-                del val['song_id']
+                # del val['song_id']
+                del val['album_id']
+                del val['artist_id']
 
         elif request.user.groups.all()[0].name == 'Label':
             for val in queryRes['albumResult']:
@@ -228,3 +233,56 @@ def makeQuery(artistQuery,albumQuery,songQuery,type):
         queryRes['albumResult'] = []
     
     return queryRes
+
+def edit(request):
+    form = None
+    if request.method == "GET":
+        if request.GET.__contains__('artist_id'):
+            artist = Artist.objects.filter(artist_id=request.GET['artist_id'])
+            form = artistFullForm(instance=artist[0])
+        elif request.GET.__contains__('album_id'):
+            album = Album.objects.filter(album_id=request.GET['album_id'])
+            form = albumFullForm(instance=album[0])
+        elif request.GET.__contains__('song_id'):
+            song = Song.objects.filter(song_id=request.GET['song_id'])
+            form = songFullForm(instance=song[0])
+
+        return render(request,'search/edit.html',{'form':form})
+
+    if request.method == "POST":
+        print(request.POST.__contains__('SSN'))
+
+        if request.POST.__contains__('SSN'):
+            artist = request.POST['artist_id']
+            instance = Artist.objects.get(artist_id=artist)
+            newPost = request.POST.copy()
+            del newPost['csrfmiddlewaretoken']
+            del newPost['edit']
+
+            form = artistFullForm(newPost,instance=instance)
+        
+        elif request.POST.__contains__('sales'):
+            album = request.POST['album_id']
+            instance = Album.objects.get(album_id=album)
+            newPost = request.POST.copy()
+            del newPost['csrfmiddlewaretoken']
+            del newPost['edit']
+
+            form = albumFullForm(newPost,instance=instance)
+
+        elif request.POST.__contains__('streams'):
+            song = request.POST['song_id']
+            instance = Song.objects.get(song_id=song)
+            newPost = request.POST.copy()
+            del newPost['csrfmiddlewaretoken']
+            del newPost['edit']
+
+            form = songFullForm(newPost,instance=instance)
+
+        if(form.is_valid()):
+            form.save()
+            messages.success(request,'Update successfully made')
+        else:
+            messages.error(request,'Error in update')
+
+        return redirect('search-home')
