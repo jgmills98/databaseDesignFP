@@ -1,49 +1,66 @@
 {% extends "search/base.html" %}
 {% block content %}
 
-<h1>here now</h1>
+<center><h1>Query Results</h1></center>
+<br></br>
 {% if artistResult|length == 0 and albumResult|length == 0 and songResult|length == 0 %}
 <p>No Queries matched search parameters</p>
 
 {% else %}
 
-{% for a in artistResult %}
-<div>
-    <ul class="list-group list-group-horizontal-md">
+<div class="row">
+    <div class="column" style="background-color:#aaa;">
+        <center><h2>Artist Info</h2></center>
+        <br></br>
+        {% for a in artistResult %}
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+        
+        
+            </ul>
+            {% for key,value in a.items %}
+            {{key}}: {{value}}|
+        
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="column" style="background-color:#bbb;">
+        <center><h2>Album Info</h2></center>
+        <br></br>
+        {% for a in albumResult %}
 
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+            </ul>
+            {% for key,value in a.items %}
+            {{key}}: {{value}}|
+        
+            {% endfor %}
+        </div>
+        {% endfor %}
 
+    </div>
+    <div class="column" style="background-color:#ccc;">
+        <center><h2>Song Info</h2></center>
+        <br></br>
+        {% for a in songResult %}
 
-    </ul>
-    {% for key,value in a.items %}
-    {{key}}: {{value}}|
-
-    {% endfor %}
+        <div>
+            <ul class="list-group list-group-horizontal-md">
+        
+            </ul>
+            {% for key,value in a.items %}
+            {{key}}: {{value}}|
+        
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 </div>
-{% endfor %}
-{% for a in albumResult %}
 
-<div>
-    <ul class="list-group list-group-horizontal-md">
-
-    </ul>
-    {% for key,value in a.items %}
-    {{key}}: {{value}}|
-
-    {% endfor %}
-</div>
-{% endfor %}
-{% for a in songResult %}
-
-<div>
-    <ul class="list-group list-group-horizontal-md">
-
-    </ul>
-    {% for key,value in a.items %}
-    {{key}}: {{value}}|
-
-    {% endfor %}
-</div>
-{% endfor %}
 {% endif %}
 
 </html>

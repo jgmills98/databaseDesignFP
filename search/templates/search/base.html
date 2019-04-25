@@ -30,11 +30,12 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" type="text/css" href="{% static 'search/main.css' %}">
+  <link rel="icon" href="../../static/images/Spot.png">
 
   {% if title %}
-  <title>Django Blog - {{ title }}</title>
+  <title>Music Database - {{ title }}</title>
   {% else %}
-  <title>Django Blog</title>
+  <title>Music Database</title>
   {% endif %}
 </head style="background-color:powderblue;">
 
@@ -50,12 +51,26 @@
       overflow: hidden;
       background-color: #333;
     }
+
+    .vertical-center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
   </style>
+
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-left">
+        <img src= "../../static/images/Spot.png" alt="Streaming Logo" width="50" height="50" hspace="10" vspace="10">
+      </ul>
       <div class="navbar-header">
-        <a class="navbar-brand" href="/">Musician Database</a>
-          <img src="../../static/images/Spot.png" alt="Italian Trulli" width="50" height="50" hspace="10" vspace="10">
+        <div class="vertical-center">
+          <a class="navbar-brand" href="/">Music Database</a>
+        </div>
       </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -63,6 +78,7 @@
       </ul>
     </div>
   </nav>
+
   {% block content %}{% endblock %}
 </body>
 
